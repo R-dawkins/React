@@ -1,0 +1,22 @@
+.dwittprops{
+  border: 1px solid black;
+  display: flex;
+  margin-bottom: 10px;
+}
+.dwittprops img{
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+}
+.dwittprops span{
+  margin: 0 10px;
+}
+
+.member input {
+  margin: 0 10px;
+}
+
+.dwittprops > div{
+  padding: 5px 5px;
+  height: 100%;
+}
