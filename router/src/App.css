@@ -1,0 +1,12 @@
+.navbar{
+  background-color: yellowgreen;
+
+}
+
+.menu{
+  border: 1px solid gray;
+  padding: 0px 10px;
+  background-color: goldenrod;
+  color: white;
+  margin-left: 10px;
+}

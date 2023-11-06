@@ -1,0 +1,20 @@
+.navbar{
+  margin-top: 50px;
+text-align: center;
+}
+.menu{ 
+  margin: 0 10px;
+  padding: 10px 10px;
+  color: white;
+  background: gray;
+  border: 1px solid black;
+}
+.menu:hover{
+  background: #AAA;
+}
+
+a{
+  color: black;
+  text-decoration: none;
+}
+
