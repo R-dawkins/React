@@ -5,7 +5,11 @@ text-align: center;
 .gray{
   color: gray;
 }
-.menu{ 
+.title_blue{
+  color: #196ab3;
+}
+.menu{
+  /* display: block; */
   margin: 0 10px;
   padding: 10px 10px;
   color: white;
