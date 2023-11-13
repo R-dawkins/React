@@ -1,0 +1,51 @@
+[
+  {
+    "pid":"1",
+    "image":"/images/1.webp",
+    "name":"핑크 후디",
+    "price":"89,000",
+    "discription":"핑크 - 후드 - 레터링"
+  },
+  {
+    "pid":"2",
+    "image":"/images/2.webp",
+    "name":"블랙 후디",
+    "price":"89,000",
+    "discription":"블랙 - 후드 - 레터링"
+  },
+  {
+    "pid":"3",
+    "image":"/images/3.webp",
+    "name":"삼베 원피스",
+    "price":"189,000",
+    "discription":"삼베 - 원피스"
+  },
+  {
+    "pid":"4",
+    "image":"/images/4.webp",
+    "name":"삼베 반바지",
+    "price":"59,000",
+    "discription":"삼베 - 반바지"
+  },
+  {
+    "pid":"5",
+    "image":"/images/5.webp",
+    "name":"스트라이프 긴팔 상의",
+    "price":"89,000",
+    "discription":"스트라이프 - 상의 - 긴팔"
+  },
+  {
+    "pid":"6",
+    "image":"/images/6.webp",
+    "name":"스트레치 비스코스 드레스",
+    "price":"150,000",
+    "discription":"스트레치 비스코스 드레스 - 터틀넥 - 자카드 스트라이프 디테일"
+  },
+  {
+    "pid":"7",
+    "image":"/images/7.webp",
+    "name":"발렌티노 자켓",
+    "price":"209,000",
+    "discription":"발렌티노 - 자켓"
+  }
+]

@@ -1,0 +1,137 @@
+*{
+  text-decoration: none;
+}
+a:visited{
+  color: inherit;
+}
+.inner{
+  width: 1256px;
+  height: 100%;
+  margin: 0 auto;
+}
+.nav_header{
+  margin: 0 auto;
+  width: 1256px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid black;
+  margin-bottom: 100px;
+}
+.home_logo{
+  font-size: 25px;
+  margin-right: 3px;
+  color: rgb(243, 69, 69);
+}
+.home_text{
+  color: rgb(243, 69, 69);
+}
+.home{
+  display: flex;
+  align-items: center;
+}
+
+.menu{
+  margin: 0 10px;
+  font-weight: 600;
+}
+.home_visual_wrap{
+  display: flex;
+  flex-direction: column;
+}
+.home_visual_main_wrap{
+  display: block;
+  position: relative;
+  width: 100%;
+  height: 350px;
+  margin-bottom: 5px;
+}
+.home_visual_img{
+  width: 100%;
+  height: 350px;
+  object-fit: cover;
+  object-position: top;
+}
+.home_visual_img_text{
+  position: absolute;
+  top: 40%;
+  left: calc(50% - 84px);
+  font-size: 30px;
+  font-weight: 600;
+  color: #fff;
+}
+
+
+.home_visual_sub_wrap{
+  display: flex;
+  align-items: top;
+  justify-content: space-between;
+  width: 100%;
+  height: 600px;
+}
+.home_visual_sub_wrap a{
+  width: 33%;
+}
+.home_visual_sub_wrap img{
+  display: block;
+  width: 100%;
+  object-fit: cover;
+}
+
+
+.product_detail_wrap{
+  width: 100%;
+  display: flex;
+  align-items: top;
+  justify-content: space-between;
+}
+
+.product_detail_wrap > div{
+  width: 48%;
+  height: 100%;
+}
+
+.product_detail_img{
+  width: 100%;
+}
+
+.product_detail_info_title{
+  border-bottom: 1px solid black;
+}
+.product_detail_info_title_price{
+  font-weight: 600;
+  font-size: 23px;
+}
+
+.product_detail_info_order_select{
+  margin-left: 5px;
+  width: 80%;
+}
+.product_detail_info_order_button{
+  margin-top: 10px;
+  display: block;
+}
+.products_list_wrap{
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+.products_list_item{
+  box-sizing: border-box;
+  width: 25%;
+  padding: 20px 20px;
+  text-align: center;
+}
+.products_list_item img{
+  width: 80%;
+}
+
+.products_regist_form_wrap form{
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
