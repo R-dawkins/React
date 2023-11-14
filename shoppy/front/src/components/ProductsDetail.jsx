@@ -2,21 +2,20 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import DetailInfo from "./DetailInfo";
 import DetailImg from "./DetailImg";
-
+import axios from "axios"
 export default function ProductsDetail(){
   const [clothe,setClothe] = useState([]);
   const param = useParams()
   console.log(param);
   console.log(param.id);
   useEffect(()=>{
-    fetch(`/database/clothes.json`)
-    .then(res=>res.json())
-    .then(data=>setClothe(data.filter((list)=>list.pid === param.id)))
+    axios.get(`http://127.0.0.1:8000/products/${param.id}`)
+    .then(res=>{setClothe(res.data)})
+    // .then(data=>setClothe(data.filter((list)=>list.pid === param.id)))
   },[])
   return(
       <div className="product_detail_wrap">
         {clothe.map((list)=>{
-          
         return <>
           <DetailImg
           pid={list.pid}
