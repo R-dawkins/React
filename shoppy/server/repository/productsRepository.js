@@ -5,9 +5,9 @@ export async function getProducts(){
   .then(result=>result[0])
 }
 
-export async function getProductsDetail(id){
+export async function getProductsDetail(pid){
   return db
-  .execute('select pid,name,format(price,0) price,discription,image,pdate from shoppy_products where pid=?',[id])
+  .execute('select pid,name,format(price,0) price,discription,image,pdate from shoppy_products where pid=?',[pid])
   .then(result=>result[0])
 }
 

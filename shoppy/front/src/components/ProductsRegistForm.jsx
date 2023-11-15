@@ -9,7 +9,6 @@ export default function ProductsRegistForm(){
   }
   function handleSubmit(e){
     e.preventDefault();
-    console.log(form);
     axios.post('http://127.0.0.1:8000/products/regist',form) //package.json의 proxy주소와 같아야 하며 데이터는 서버의 req.body로 넘어감
     .then(result=>{if(result.status === 204){alert('success')}})
   }

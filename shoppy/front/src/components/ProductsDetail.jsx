@@ -6,8 +6,6 @@ import axios from "axios"
 export default function ProductsDetail(){
   const [clothe,setClothe] = useState([]);
   const param = useParams()
-  console.log(param);
-  console.log(param.id);
   useEffect(()=>{
     axios.get(`http://127.0.0.1:8000/products/${param.id}`)
     .then(res=>{setClothe(res.data)})
@@ -18,7 +16,7 @@ export default function ProductsDetail(){
         {clothe.map((list)=>{
         return <>
           <DetailImg
-          pid={list.pid}
+          image={list.image}
           />
           <div className="product_detail_info_wrap">
           <DetailInfo

@@ -5,14 +5,11 @@ export async function getProducts(req,res){
 }
 
 export async function getProductsDetail(req,res){
-  console.log(req.params);
-  const rows = await productsRepository.getProductsDetail(req.params.id);
-  console.log(rows);
+  const rows = await productsRepository.getProductsDetail(req.params.pid);
   res.json(rows)
 }
 
 export async function postProducts(req,res){
-  console.log(req.body);
   const {name,price,discription,image} = req.body
   const params = [name,price,discription,image]
   const result = await productsRepository.postProducts(params);
