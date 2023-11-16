@@ -1,14 +1,59 @@
-import { Link } from "react-router-dom";
+import axios from "axios";
+import { useRef, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Login(){
+
+  const [form,setForm] = useState({id:'',pass:''});
+  const inputId = useRef(null);
+  const inputPass = useRef(null);
+  const navigate = useNavigate();
+  function handleChange(e){
+    const {name,value} = e.target;
+    setForm({...form,[name]:value})
+    console.log(form)
+  }
+  function handleSubmit(e){
+    e.preventDefault();
+    if(form.id.length < 1){
+      alert('아이디를 입력하세요');
+      return inputId.current.focus();
+    }
+    else if(form.pass.length < 1){
+      alert('비밀번호를 입력하세요');
+      return inputPass.current.focus();
+    }
+    axios.post('http://127.0.0.1:8000/login/',form)
+    .then(result=>{
+      if(result.data.login_result){
+        console.log(result.data.login_result);
+        alert('로그인 성공');
+        navigate('/')
+      }else{
+        if(result.data.cnt === 1){
+          alert("패스워드가 다릅니다.");
+          setForm({...form,pass:''});
+          inputPass.current.focus();
+        }else{
+          alert("아이디와 패스워드가 다릅니다.");
+          setForm({id:'',pass:''})
+          inputId.current.focus();
+        }
+        
+      }
+    })
+  }
+  function handleReset(){
+    setForm({id:'',pass:''})
+  }
   return(
     <div className="login inner">
-        <form>
+        <form onSubmit={handleSubmit}>
           <p>로그인</p>
           <ul>
-            <li><input name="id" type="text" id="id" placeholder="id"/></li>
-            <li><input name="pass" type="password" id="pass" placeholder="password"/></li>
-            <li><button>로그인</button></li>
+            <li><input ref={inputId} value={form.id} onChange={handleChange} name="id" type="text" id="id" placeholder="id"/></li>
+            <li><input ref={inputPass} value={form.pass} onChange={handleChange} name="pass" type="password" id="pass" placeholder="password"/></li>
+            <li><button>로그인</button><button onClick={handleReset} type="reset">다시쓰기</button></li>
           </ul>
         </form>
 
