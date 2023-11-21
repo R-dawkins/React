@@ -2,6 +2,13 @@ import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import * as memberRepository from '../repository/memberRepository.js'
 
+export async function checkId(req,res){
+  const id = req.params.id
+  console.log(id);
+  const result = await memberRepository.checkId(id);
+  res.json(result)
+}
+
 function createToken(id){
   return jwt.sign(
     {id : id},'704YJJ&3si|?'

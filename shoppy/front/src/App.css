@@ -1,4 +1,7 @@
-*{
+* {
+  text-decoration: none;
+}
+a {
   text-decoration: none;
 }
 a:visited{
@@ -134,4 +137,32 @@ a:visited{
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
+}
+
+.quantity span{
+  /* padding-top:0.2rem; */
+  border:1px solid lightgray;
+  border-radius: 0.2rem;
+  background-color: rgb(243, 242, 242);
+  width:30px; height:28px;
+  display:block;
+  float:left;
+}
+.quantity input[type='checkbox'] {
+  width:30px; height:30px;
+  border:1px solid lightgray;
+  /* border-radius: 0.2rem; */
+  /* background-color: rgb(243, 242, 242); */
+  display:block;
+  float:left;
+  margin-top:0px;
+}
+.quantity p{
+  text-align:center;
+}
+.quantity p {
+  justify-content: space-between;
+  /* border:1px solid blue; */
+  width:100%;
+  overflow:hidden;
 }

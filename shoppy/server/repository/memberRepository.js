@@ -13,3 +13,9 @@ export async function login(id){
   //로그인을 진행할 때는 count함수를 쓴다 어떤 DB이든지
   
 }
+
+export async function checkId(id){
+  return db
+  .execute('select count(id) cnt, any_value(id) id from shoppy_member where id = ?',[id])
+  .then(result=>result[0][0])
+}

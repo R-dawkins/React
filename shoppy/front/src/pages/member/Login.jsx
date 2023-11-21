@@ -2,7 +2,7 @@ import axios from "axios";
 import { useRef, useState } from "react";
 // import { useCookies } from "react-cookie"; ------------- useCookies
 import { Link, useNavigate } from "react-router-dom";
-import { setCookie } from "../../util/cookie";
+import { getCookie, removeCookie, setCookie } from "../../util/cookie";
 import {jwtDecode} from 'jwt-decode'
 // import * as cookie from "../../util/cookie"; 전체 함수 import 한번에 하고 싶을 시
 export default function Login(){
@@ -10,6 +10,8 @@ export default function Login(){
   const [form,setForm] = useState({id:'',pass:''});
   const inputId = useRef(null);
   const inputPass = useRef(null);
+  const recentPage = getCookie('recent-page');
+  // 저장된 쿠키 불러오기
   const navigate = useNavigate();
   function handleChange(e){
     const {name,value} = e.target;
@@ -40,7 +42,14 @@ export default function Login(){
         //로그인 후 로그인 상태 확인은 로컬스토리지에 저장된 데이터로 하는 것이 일반적
         // 장바구니에서 로그인 확인도 로컬 스토리지에 저장된 데이터를 받아서 할 수 있음
         alert('로그인 성공');
-        navigate('/')
+        if(recentPage){
+          console.log(recentPage);
+          
+          navigate(recentPage)
+          removeCookie('recent-page');
+        }else{
+          navigate('/')
+        }
       }else{
         if(result.data.cnt === 1){
           alert("패스워드가 다릅니다.");

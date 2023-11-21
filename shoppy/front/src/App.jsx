@@ -1,4 +1,3 @@
-import './App.css';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Home from './pages/Home';
 import ProductsAll from './pages/ProductsAll';
@@ -9,6 +8,8 @@ import Root from './pages/Root';
 import NotFound from './pages/NotFound';
 import Login from './pages/member/Login';
 import SignUp from './pages/member/SignUp';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './App.css';
 const router = createBrowserRouter([
   {
     path : '/',
