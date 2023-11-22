@@ -166,3 +166,7 @@ a:visited{
   width:100%;
   overflow:hidden;
 }
+
+.list_image{
+  width: 100px;
+}

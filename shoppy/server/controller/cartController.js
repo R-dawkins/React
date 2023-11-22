@@ -20,3 +20,13 @@ export async function removeCart(req,res){
     res.status(204).send('success')
   }
 }
+
+export async function updateCart(req,res){
+  const {cid,qty} = req.params
+  const params = [qty,cid]
+  console.log(cid,qty);
+  const result = await cartRepository.updateCart(params)
+  if(result === 'success'){
+    res.status(204).send('success')
+  }
+}

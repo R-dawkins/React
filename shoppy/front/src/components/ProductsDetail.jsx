@@ -16,7 +16,7 @@ export default function ProductsDetail(){
   const navigate = useNavigate();
   const location = useLocation();
   const getQty = (e) => {
-    setQty(e);
+    setQty(e.qty);
     //e에 자식 컴포넌트에서 받은 count값이 들어가는 것이라고 추측 가능
   }
 
@@ -85,6 +85,7 @@ export default function ProductsDetail(){
                   </select>
                   <Quantity
                   getQty = {getQty}
+                  qty = {qty}
                   />
                 <button type="button" onClick={handleClick} className="product_detail_info_order_button">장바구니에 추가</button>
               </form>

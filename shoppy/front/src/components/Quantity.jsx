@@ -1,14 +1,26 @@
 import React, { useState } from "react";
 
-export default function Quantity({getQty}){
-  let [count, setCount] = useState(1)
+export default function Quantity({getQty,qty,price,cid}){
+  let [count, setCount] = useState(qty)
   const quantityCheck = ((checkFlag)=>{
     if(checkFlag === "minus"){ // 0 = minus
-      count <= 1 ? alert('1개 이상 구매 가능합니다') : setCount(--count);
+      if(count <= 1){
+        alert('1개 이상 구매 가능합니다')
+      }else{
+        setCount(--count)
+        getQty({qty:count,price:price,checkFlag:checkFlag,cid:cid});
+      }
     }else{
-      count >= 10 ? alert('10개 초과하여 구매할 수 없습니다') : setCount(++count)
+      if(count >= 10){
+        alert('10개 초과하여 구매할 수 없습니다')
+      }else{
+        setCount(++count)
+        getQty({qty:count,price:price,checkFlag:checkFlag,cid:cid});
+      }
+      
     }
-    getQty(count);
+    
+    //수량,가격,더하기인지 빼기인지
   })
   // 함수표현식은 글로벌로 선언되어 바로 실행됨
   // 함수선언식은 아님

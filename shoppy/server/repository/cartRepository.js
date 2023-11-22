@@ -6,12 +6,18 @@ export async function addCart(params){
 }
 export async function getCart(id){
   return db
-  .execute('select row_number() over(order by sc.cdate) as rno, sc.size, sc.cid ,sp.pid, sp.image, sp.name, format(sp.price,0) price, sc.qty, format(sp.price*sc.qty,0) as lprice from shoppy_cart sc,shoppy_products sp,shoppy_member sm where sc.pid = sp.pid and sc.id = sm.id and sc.id = ?',[id])
+  .execute('select row_number() over(order by sc.cdate) as rno, sm.id, sc.size, sc.cid ,sp.pid, sp.image, sp.name, sp.price, sc.qty, sp.price*sc.qty as lprice from shoppy_cart sc,shoppy_products sp,shoppy_member sm where sc.pid = sp.pid and sc.id = sm.id and sc.id = ?',[id])
   .then(result=>result[0])
 }
 
 export async function removeCart(cid){
   return db
   .execute('delete from shoppy_cart where cid=?',[cid])
+  .then(result=>'success')
+}
+
+export async function updateCart(params){
+  return db
+  .execute('update shoppy_cart set qty=? where cid = ?',params)
   .then(result=>'success')
 }
