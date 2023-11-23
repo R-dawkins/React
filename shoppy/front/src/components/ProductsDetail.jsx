@@ -46,9 +46,14 @@ export default function ProductsDetail(){
         axios.post('http://127.0.0.1:8000/carts/new',params)
         .then(result=>console.log(result))
         console.log(params);
-        alert('장바구니에 추가 되었습니다.')
-        // const confirm = window.confirm("장바구니에 추가되었습니다. 장바구니로 이동하시겠습니까?") 컨펌받는명령어
-        // console.log(confirm)
+        // alert('장바구니에 추가 되었습니다.')
+        const confirm = window.confirm("장바구니에 추가되었습니다. 장바구니로 이동하시겠습니까? 쇼핑을 계속 하시려면 취소를 눌러주십시오") //컨펌받는명령어
+        if(confirm){
+          navigate('/cart')
+        }
+        else{
+          return
+        }
       }
     }
     else{

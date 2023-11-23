@@ -10,7 +10,7 @@ export async function getCart(id){
   .then(result=>result[0])
 }
 
-export async function removeCart(cid){
+export async function removeCartItem(cid){
   return db
   .execute('delete from shoppy_cart where cid=?',[cid])
   .then(result=>'success')
@@ -19,5 +19,11 @@ export async function removeCart(cid){
 export async function updateCart(params){
   return db
   .execute('update shoppy_cart set qty=? where cid = ?',params)
+  .then(result=>'success')
+}
+
+export async function removeCart(id){
+  return db
+  .execute('delete from shoppy_cart where id =?',[id])
   .then(result=>'success')
 }

@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import Table from 'react-bootstrap/Table'
 import Button from 'react-bootstrap/Button'
 import Quantity from '../components/Quantity.jsx';
+import Form from 'react-bootstrap/Form'
 //서버에 회원의 장바구니 리스트 가져오기
 //http://127.0.0.1:8000/carts/hong --> http://127.0.0.1:8000/carts/:id
 //select로 quantity 조절 기능 추가 put요청 => SQL update 이용하면 안될듯 onchange를 사용하면 가능할지도(대부분의 쇼핑몰들은 상품수량변경한다고 새로고침을 하지는 않는다.)
@@ -19,10 +20,32 @@ const [sumPrice,setSumPrice] = useState(0);
 const [total,setTotal] = useState(0);
 const [totdel,setTotdel] = useState(0);
 const [orderList, setOrderList] = useState([]);
+const [checkList, setCheckList] = useState([]);
+const [boolFlag, setBoolFlag] = useState(false);
+const handleAllcheck = ((e)=>{
+  if(e.target.checked){
+  }else{
+  }
+})
+
+const handleChange = ((e)=>{
+  console.log(e.target.dataset.id);
+  let cid = e.target.dataset.id
+  console.log(e.target.checked);
+  if(e.target.checked){
+    setCheckList([...checkList,cid])
+    console.log(checkList);
+  }else{
+    console.log('unchecked!');
+    setCheckList(checkList.filter((item) => item !== cid))
+    console.log(checkList);
+  }
+  //체크한 상품의 cid를 배열에 넣음
+})
 
 const getQty = (e) => {
   setQty(e.qty);
-    if(e.checkFlag === 'plus'){
+    if(e.checkFlag === 'plus' && e.qtyFlag){
         setSumPrice(sumPrice+parseInt(e.price));
         setTotal(sumPrice+parseInt(e.price));
         
@@ -31,7 +54,7 @@ const getQty = (e) => {
         // setOrderList(copyCart)
         // console.log(orderList);
 
-    }else{
+    }else if(e.checkFlag === 'minus' && e.qtyFlag){
         setSumPrice(sumPrice-parseInt(e.price));
         setTotal(sumPrice-parseInt(e.price));
     }
@@ -42,6 +65,7 @@ const getQty = (e) => {
   //e에 자식 컴포넌트에서 받은 count값이 들어가는 것이라고 추측 가능
   handleUpdate(e.cid,e.qty);
 }
+
 
 const handleUpdate = (cid,qty)=>{
   axios.put(`http://127.0.0.1:8000/carts/update/${cid}/${qty}`)
@@ -63,14 +87,25 @@ const handlePay =()=>{
   .then(result => {
     console.log(result);
     if(result.status === 204){
-      alert('결제화면으로 이동')
+      handleCartRemove()
     }
   })
   //qty와 size, totalPrice는 따로 받아야함
 }
-
+//선생님 방식은 cartList를 map을 사용해 필요한 데이터가 담긴 객체를 생성하고 그 객체를 새로운 배열로 push 후 데이터 넘김
 let totPrice = 0; //총 가격 구하기
 
+/* const handleOrder=(e)=>{
+  const newOrderList = new Array(); //[{},{},]
+  cartlist.map((cart)=>{
+    const orderProduct= {
+      id : cart.id,
+      pid : cart.pid
+    }
+    newOrderList.push(orderProduct);
+  })
+} */
+//선생님 방식의 주문
 
 useEffect(()=>{
   if(userInfo){
@@ -106,19 +141,22 @@ const handleDataset = (e)=>{
   //event 대상의 data-id props key에 해당하는 값을 가져오는 함수 
 }
 
-const handleCartRemove = ()=>{
-  axios.delete(`http://127.0.0.1:8000/carts/remove/${userInfo.id}`)
+const handleCartRemove =async ()=>{
+  await axios.delete(`http://127.0.0.1:8000/carts/removelist/${userInfo.id}`)
   .then(result => {
     if(result.status === 200){
+      alert('결제 화면으로 이동')
       navigate('/')
     }
   })
 }
 
 
+
 const handleRemove = (cid)=>{
   // 장바구니 테이블은 하나이고 cid는 primary key인데  굳이 userid가 필요한지에 대한 의문
   // 나중에 필요할 때 userid와 cid를 함께 사용하자
+  // 보안성? cid만 보내서 삭제할 수 있다면 아무 cid만 보내도 삭제가 될 수 있으나 id까지 매칭 시킨다면 더 안전할 수 있다
   axios.delete(`http://127.0.0.1:8000/carts/remove/${cid}`)
   .then(result => {
     if(result.status === 204){
@@ -139,7 +177,7 @@ const handleRemove = (cid)=>{
           <Table striped bordered hover>
             <thead>
               <tr>
-                <th>번호 </th>
+                <th>번호 <Form.Check type='checkbox' onChange={handleAllcheck}/></th>
                 <th>상품 사진 </th>
                 <th>상품 이름</th>
                 <th>상품 사이즈</th>
@@ -155,7 +193,7 @@ const handleRemove = (cid)=>{
             cartlist.map((list)=>{
                 
               return <tr key={list.rno}>
-                    <td>{list.cid}</td>
+                    <td>{list.rno} <Form.Check type='checkbox' onChange={handleChange} data-id ={list.cid} checked={boolFlag}/></td>
                     <td><img className='list_image' src={list.image} /></td>
                     <td>{list.name}</td>
                     <td>{list.size}</td>
@@ -187,7 +225,7 @@ const handleRemove = (cid)=>{
 }
 /* 
   주문하기 버튼 추가 [완료]
-  오더(주문) 테이블에 장바구니 데이터 추가 후 장바구니 삭제 (데이터추가까지만 완료)
+  오더(주문) 테이블에 장바구니 데이터 추가 후 장바구니 삭제 [완료]
   체크박스 추가해서 여러개 선택하여 삭제 기능 추가
   전체 선택 삭제 추가
   사이즈 셀렉트박스로 변경 기능 추가
