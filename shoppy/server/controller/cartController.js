@@ -8,11 +8,27 @@ export async function addCart(req,res){
     res.status(201).send('success')
   }
 }
-export async function getCart(req,res){
+
+export async function getPageList(req,res){
+  const {id,start,size} = req.params
+  //page는 보여줄 개수
+  const params = [id,id,start,size]
+  const result = await cartRepository.getPageList(params);
+  res.json(result)
+} // limit 사용방법
+
+/* export async function getPageList(req,res){
+  const {id,start,end} = req.params
+  const params = [id,start,end]
+  const result = await cartRepository.getPageList(params);
+  res.json(result)
+} */ //between and 사용방법
+
+/* export async function getCart(req,res){
   const id = req.params.id
   const result = await cartRepository.getCart(id);
   res.json(result)
-}
+} */ //전체아이템 get
 
 export async function removeCartItem(req,res){
   const cid = req.params.cid

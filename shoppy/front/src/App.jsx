@@ -10,6 +10,7 @@ import Login from './pages/member/Login';
 import SignUp from './pages/member/SignUp';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
+import MyOrder from './pages/MyOrder';
 const router = createBrowserRouter([
   {
     path : '/',
@@ -22,7 +23,8 @@ const router = createBrowserRouter([
       { path : '/products/regist', element : <ProductsRegist/>},
       { path : '/cart', element : <Cart/>},
       { path : '/login', element : <Login/>},
-      { path : '/signup', element : <SignUp/>}
+      { path : '/signup', element : <SignUp/>},
+      { path : '/order', element : <MyOrder/>}
     ]
   }
 ]);

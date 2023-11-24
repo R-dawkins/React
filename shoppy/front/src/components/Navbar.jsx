@@ -36,6 +36,7 @@ export default function Navbar(){
             <Link to='/cart' className='menu'>
               <FiShoppingCart/>
             </Link>
+            <Link to='/order' className='menu'>주문하기</Link>
             <Link to='/products/regist' className='menu'>
               <BsPencil/>
             </Link>

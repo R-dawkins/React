@@ -7,6 +7,12 @@ import Table from 'react-bootstrap/Table'
 import Button from 'react-bootstrap/Button'
 import Quantity from '../components/Quantity.jsx';
 import Form from 'react-bootstrap/Form'
+
+// 페이징
+import Pagination from 'rc-pagination';
+import 'bootstrap/dist/css/bootstrap.css';
+import 'rc-pagination/assets/index.css'
+
 //서버에 회원의 장바구니 리스트 가져오기
 //http://127.0.0.1:8000/carts/hong --> http://127.0.0.1:8000/carts/:id
 //select로 quantity 조절 기능 추가 put요청 => SQL update 이용하면 안될듯 onchange를 사용하면 가능할지도(대부분의 쇼핑몰들은 상품수량변경한다고 새로고침을 하지는 않는다.)
@@ -21,11 +27,22 @@ const [total,setTotal] = useState(0);
 const [totdel,setTotdel] = useState(0);
 const [orderList, setOrderList] = useState([]);
 const [checkList, setCheckList] = useState([]);
-const [boolFlag, setBoolFlag] = useState(false);
+
+//페이징처리
+const [curPage, setCurPage] = useState(1); // 현재 페이지
+const [totItem, setTotItem] = useState(0); // 아이템 전체 개수 db에서 가져와야함 
+const [pageSize, setPageSize] = useState(3); //한 페이지에 보여줄 아이템 개수
+// const [startIndex, setStartIndex] = useState(0); //보여줄 아이템 시작
+// const [endIndex, setEndIndex] = useState(0); //보여줄 아이템 마지막
+//
 const handleAllcheck = ((e)=>{
   if(e.target.checked){
   }else{
   }
+})
+
+const isChecked = (()=>{
+
 })
 
 const handleChange = ((e)=>{
@@ -108,11 +125,33 @@ let totPrice = 0; //총 가격 구하기
 //선생님 방식의 주문
 
 useEffect(()=>{
+  //페이징처리
+  //startIndex, endIndex를 추가하여 get 요청
+  //startIndex는 페이지 * 보여줄 아이템 개수
+  //endIndex는 페이지+1 * 보여줄 아이템 개수
+  let startIndex = 0;
+  // let endIndex = 0;  LIMIT 사용하지않고 between and 사용시
+  //sql쿼리를 사용하기 위해서는 0부터 시작해야함 LIMIT 사용하기 위함
+  //pageSize를 보내서 startIndex부터 몇개를 보여줄지 정하면 됨
+
+  // startIndex = ((curPage-1) * pageSize + 1) //1-1*3+1 : 1, 4, 7 ... LIMIT 사용하지않고 between and 사용시
+  // endIndex = curPage * pageSize // 1 * 3= 3,6,9...
+  
+  startIndex = ((curPage-1) * pageSize)
+
+  
+  // console.log(startIndex, endIndex); LIMIT 사용하지않고 between and 사용시
+
+  // totalcount를 가져오려면 
+
+
   if(userInfo){
-    axios.get(`http://127.0.0.1:8000/carts/${userInfo.id}`)
+    // axios.get(`http://127.0.0.1:8000/carts/${userInfo.id}`)
+    // pag
+    axios.get(`http://127.0.0.1:8000/carts/${userInfo.id}/${startIndex}/${pageSize}`)
     .then(result=>{
       setCartList(result.data)
-      console.log(result.data);
+      setTotItem(result.data[0].cnt)
       totPrice = result.data.reduce((total,item)=>total+(item.price*item.qty),0);
       //0은 total의 값을 초기화하는 값 0이나 다른 값을 넣지 않으면 total이 undefined이기 때문에 item.lprice와 더했을 때 오류가 발생한다.
       setSumPrice(totPrice);// 장바구니 데이터를 get한 곳에서 총 가격 함수 진행
@@ -133,7 +172,7 @@ useEffect(()=>{
       navigate('/')
     }
   }
-},[])
+},[curPage]) // curPage가 변경되면 다시 호출됨 배열로 감싸야 적용 가능
 
 const handleDataset = (e)=>{
   console.log(e.target.dataset.id);
@@ -146,7 +185,7 @@ const handleCartRemove =async ()=>{
   .then(result => {
     if(result.status === 200){
       alert('결제 화면으로 이동')
-      navigate('/')
+      navigate('/order')
     }
   })
 }
@@ -193,7 +232,7 @@ const handleRemove = (cid)=>{
             cartlist.map((list)=>{
                 
               return <tr key={list.rno}>
-                    <td>{list.rno} <Form.Check type='checkbox' onChange={handleChange} data-id ={list.cid} checked={boolFlag}/></td>
+                    <td>{list.rno} <Form.Check type='checkbox' onChange={handleChange} data-id ={list.cid}/></td>
                     <td><img className='list_image' src={list.image} /></td>
                     <td>{list.name}</td>
                     <td>{list.size}</td>
@@ -211,6 +250,12 @@ const handleRemove = (cid)=>{
           }
             </tbody>
           </Table>
+            <Pagination className='d-flex justify-content-center'
+            onChange={(page)=>{setCurPage(page)}}//page에는 변경 될 페이지가 인수로 들어감
+            current={curPage}// 현재 페이지
+            total={totItem}// 총 아이템 개수
+            pageSize={pageSize}//한페이지에 보여줄 개수
+            />
           <div className='total_price'>
             <p>총 상품가격 : {sumPrice.toLocaleString()}원</p>
             <p>+ 총 배송비 : </p>

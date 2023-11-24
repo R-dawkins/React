@@ -4,12 +4,29 @@ export async function addCart(params){
   .execute('insert shoppy_cart(qty,pid,size,id,cdate) values(?,?,?,?,sysdate())',params)
   .then(result=>'success')
 }
-export async function getCart(id){
+export async function getPageList(params){
+  const sql = `select row_number() over(order by sc.cdate) as rno, sc.size, sc.cid ,sp.pid, sp.image, sp.name, sp.price, sc.qty, sp.price*sc.qty as lprice, cnt
+	from shoppy_cart sc,shoppy_products sp,shoppy_member sm,(select count(*) as cnt from shoppy_cart where id = ?) cart
+	where sc.pid = sp.pid and sc.id = sm.id and sc.id = ? limit ?,?`
+  return db
+  .execute(sql,params)
+  .then(result=>result[0])
+}
+
+/* export async function getPageList(params){
+  return db
+  .execute('select * from (select row_number() over(order by sc.cdate) as rno, sc.size, sc.cid ,sp.pid, sp.image, sp.name, sp.price, sc.qty, sp.price*sc.qty as lprice, cnt
+	from shoppy_cart sc,shoppy_products sp,shoppy_member sm,(select count(*) as cnt from shoppy_cart where id = 'test') cart
+	where sc.pid = sp.pid and sc.id = sm.id and sc.id = ?) cart_list where rno between ? and ?',params)
+  .then(result=>result[0])
+} */ //between and 사용법
+
+/* export async function getCart(id){
   return db
   .execute('select row_number() over(order by sc.cdate) as rno, sm.id, sc.size, sc.cid ,sp.pid, sp.image, sp.name, sp.price, sc.qty, sp.price*sc.qty as lprice from shoppy_cart sc,shoppy_products sp,shoppy_member sm where sc.pid = sp.pid and sc.id = sm.id and sc.id = ?',[id])
   .then(result=>result[0])
 }
-
+ */ // 전부 get
 export async function removeCartItem(cid){
   return db
   .execute('delete from shoppy_cart where cid=?',[cid])
