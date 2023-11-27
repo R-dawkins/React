@@ -14,7 +14,7 @@ export default function ProductsList(){
         list.map((list)=>{
         return <div key={list.pid} className={`products_list_item_${list.pid} products_list_item`}>
           <div>
-            <Link to={`${list.pid}`}><img src={list.image}/></Link>
+            <Link to={`${list.pid}`}><img src={`http://localhost:8000/${list.image}`}/></Link>
           </div>
           <div><Link to={`${list.pid}`}><p>{list.name}</p></Link></div>
         </div>

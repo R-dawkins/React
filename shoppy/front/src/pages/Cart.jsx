@@ -24,26 +24,16 @@ const [cartlist,setCartList] = useState([]);
 const [qty, setQty] = useState(1) // 선생님 방법
 const [sumPrice,setSumPrice] = useState(0);
 const [total,setTotal] = useState(0);
-const [totdel,setTotdel] = useState(0);
-const [orderList, setOrderList] = useState([]);
+// const [totdel,setTotdel] = useState(0);
+// const [orderList, setOrderList] = useState([]);
 const [checkList, setCheckList] = useState([]);
-
 //페이징처리
 const [curPage, setCurPage] = useState(1); // 현재 페이지
-const [totItem, setTotItem] = useState(0); // 아이템 전체 개수 db에서 가져와야함 
+const [totItem, setTotItem] = useState(1); // 아이템 전체 개수 db에서 가져와야함 
 const [pageSize, setPageSize] = useState(3); //한 페이지에 보여줄 아이템 개수
 // const [startIndex, setStartIndex] = useState(0); //보여줄 아이템 시작
 // const [endIndex, setEndIndex] = useState(0); //보여줄 아이템 마지막
 //
-const handleAllcheck = ((e)=>{
-  if(e.target.checked){
-  }else{
-  }
-})
-
-const isChecked = (()=>{
-
-})
 
 const handleChange = ((e)=>{
   console.log(e.target.dataset.id);
@@ -148,10 +138,22 @@ useEffect(()=>{
   if(userInfo){
     // axios.get(`http://127.0.0.1:8000/carts/${userInfo.id}`)
     // pag
+    
     axios.get(`http://127.0.0.1:8000/carts/${userInfo.id}/${startIndex}/${pageSize}`)
     .then(result=>{
       setCartList(result.data)
-      setTotItem(result.data[0].cnt)
+
+      const getCnt = (result) => {
+        if (result) {
+          return result.data[0].cnt;
+        } else {
+          return undefined;
+        }
+      };
+      console.log(result.data[0].cnt);
+      setTotItem(getCnt())
+      console.log(getCnt());
+      console.log(totItem);
       totPrice = result.data.reduce((total,item)=>total+(item.price*item.qty),0);
       //0은 total의 값을 초기화하는 값 0이나 다른 값을 넣지 않으면 total이 undefined이기 때문에 item.lprice와 더했을 때 오류가 발생한다.
       setSumPrice(totPrice);// 장바구니 데이터를 get한 곳에서 총 가격 함수 진행
@@ -216,7 +218,7 @@ const handleRemove = (cid)=>{
           <Table striped bordered hover>
             <thead>
               <tr>
-                <th>번호 <Form.Check type='checkbox' onChange={handleAllcheck}/></th>
+                <th>번호 <Form.Check type='checkbox' onChange={''}/></th>
                 <th>상품 사진 </th>
                 <th>상품 이름</th>
                 <th>상품 사이즈</th>

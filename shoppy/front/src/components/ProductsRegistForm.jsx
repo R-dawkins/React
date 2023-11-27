@@ -15,10 +15,9 @@ export default function ProductsRegistForm(){
     setForm({...form,[name]:value})
     console.log(form);
   } */
-  function handleSubmit(e){
+  async function handleSubmit(e){
     e.preventDefault();
     const formData = new FormData(e.target);
-    console.log(e.target);
     // FormData를 이용하여 name, value를 얻어올 수 있음
     for (let pair of formData.entries()) {
       console.log(`${pair[0]}:${pair[1]}`);
@@ -37,7 +36,7 @@ export default function ProductsRegistForm(){
   return(
     <div className="products_regist_form_wrap inner">
       <form onSubmit={handleSubmit}>
-        <label htmlFor="image">image</label><input id="image" name="image" type="text" placeholder="image" value={image}/>
+        <label htmlFor="image"></label><input id="image" name="image" type="hidden" placeholder="자동으로 이미지가 등록됩니다" readOnly value={image}/>
         {/* <label htmlFor="image">image</label><input id="image" name="image" type="text" placeholder="image" value={form.image} onChange={handleChange}/> */}
         <ImageUpload getImage={getImage}/>
         {/* <label htmlFor="name">name</label><input id="name" name="name" type="text" placeholder="name" value={form.name} onChange={handleChange}/> */}

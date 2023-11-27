@@ -1,4 +1,3 @@
-import * as uploadRepository from '../repository/uploadRepository.js'
 import multer from 'multer'
 
 /* 
@@ -21,7 +20,9 @@ const fupload = multer({ storage: storage }).single('file')
 export function upload(req,res){
   fupload(req,res,err =>{
     console.log(req.file.path);
+
     res.json(req.file);
+
   })
 
   //db연동이 아니라 폴더에 저장이라 async를 빼도 됨
