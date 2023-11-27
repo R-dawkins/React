@@ -6,5 +6,4 @@ router.get('/:pid', productsController.getProductsDetail);
 router.post('/regist',productsController.postProducts);
 
 
-
 export default router;
