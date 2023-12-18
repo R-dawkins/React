@@ -5,8 +5,8 @@ export async function addCart(params){
   .then(result=>'success')
 }
 export async function getPageList(params){
-  const sql = `select row_number() over(order by sc.cdate) as rno, sc.size, sc.cid ,sp.pid, sp.image, sp.name, sp.price, sc.qty, sp.price*sc.qty as lprice, cnt
-	from shoppy_cart sc,shoppy_products sp,shoppy_member sm,(select count(*) as cnt from shoppy_cart where id = ?) cart
+  const sql = `select row_number() over(order by sc.cdate) as rno, sc.size, sc.cid ,sp.pid, sp.image, sp.name, sp.price, sc.qty, sp.price*sc.qty as lprice, cnt, total_price
+	from shoppy_cart sc,shoppy_products sp,shoppy_member sm,(select count(*) as cnt, sum(sp.price*sc.qty) total_price from shoppy_cart sc,shoppy_products sp where sc.pid = sp.pid and id = ?) cart
 	where sc.pid = sp.pid and sc.id = sm.id and sc.id = ? limit ?,?`
   return db
   .execute(sql,params)

@@ -12,6 +12,7 @@ export async function addCart(req,res){
 export async function getPageList(req,res){
   const {id,start,size} = req.params
   //page는 보여줄 개수
+  console.log(req.params);
   const params = [id,id,start,size]
   const result = await cartRepository.getPageList(params);
   res.json(result)

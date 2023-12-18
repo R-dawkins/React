@@ -3,7 +3,7 @@ import * as cartController from '../controller/cartController.js'
 
 const router = express.Router();
 router.post('/new', cartController.addCart);
-router.get('/:id/:start/:size', cartController.getPageList);
+router.get('/page/:id/:start/:size', cartController.getPageList);
 // router.get('/:id/:start/:end', cartController.getPageList);
 // router.get('/:id', cartController.getCart);
 //원래 코드는 남겨두고 지우지는 않기

@@ -1,13 +1,12 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import useProducts from "../hooks/useProducts";
 
 export default function ProductsList(){
-  const [list,setList] = useState([]);
-  useEffect(()=>{
-    axios.get('http://127.0.0.1:8000/products/')
-    .then(res=>setList(res.data))
-  },[])
+  const baseUrl = 'http://127.0.0.1:8000/products/'
+  const [list] = useProducts(baseUrl);
+
   return(
     <div className="products_list_wrap inner">
       {

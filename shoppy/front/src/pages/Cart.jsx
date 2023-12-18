@@ -24,8 +24,6 @@ const [cartlist,setCartList] = useState([]);
 const [qty, setQty] = useState(1) // 선생님 방법
 const [sumPrice,setSumPrice] = useState(0);
 const [total,setTotal] = useState(0);
-// const [totdel,setTotdel] = useState(0);
-// const [orderList, setOrderList] = useState([]);
 const [checkList, setCheckList] = useState([]);
 //페이징처리
 const [curPage, setCurPage] = useState(1); // 현재 페이지
@@ -34,7 +32,9 @@ const [pageSize, setPageSize] = useState(3); //한 페이지에 보여줄 아이
 // const [startIndex, setStartIndex] = useState(0); //보여줄 아이템 시작
 // const [endIndex, setEndIndex] = useState(0); //보여줄 아이템 마지막
 //
-
+// const [totdel,setTotdel] = useState(0);
+// const [orderList, setOrderList] = useState([]);
+// const [cartlist,sumPrice,total] = useCart(curPage,userInfo,pageSize)
 const handleChange = ((e)=>{
   console.log(e.target.dataset.id);
   let cid = e.target.dataset.id
@@ -114,6 +114,7 @@ let totPrice = 0; //총 가격 구하기
 } */
 //선생님 방식의 주문
 
+/* useCart로 cumstomHook 화 할 로직  */
 useEffect(()=>{
   //페이징처리
   //startIndex, endIndex를 추가하여 get 요청
@@ -129,7 +130,6 @@ useEffect(()=>{
   
   startIndex = ((curPage-1) * pageSize)
 
-  
   // console.log(startIndex, endIndex); LIMIT 사용하지않고 between and 사용시
 
   // totalcount를 가져오려면 
@@ -138,12 +138,13 @@ useEffect(()=>{
   if(userInfo){
     // axios.get(`http://127.0.0.1:8000/carts/${userInfo.id}`)
     // pag
-    
-    axios.get(`http://127.0.0.1:8000/carts/${userInfo.id}/${startIndex}/${pageSize}`)
+    console.log(userInfo.id);
+    axios.get(`http://127.0.0.1:8000/carts/page/${userInfo.id}/${startIndex}/${pageSize}`)
     .then(result=>{
       setCartList(result.data)
-
+      console.log(result);
       const getCnt = (result) => {
+        console.log(result);
         if (result) {
           return result.data[0].cnt;
         } else {
@@ -151,13 +152,16 @@ useEffect(()=>{
         }
       };
       console.log(result.data[0].cnt);
-      setTotItem(getCnt())
-      console.log(getCnt());
+      setTotItem(getCnt(result))
+      console.log(getCnt(result));
       console.log(totItem);
-      totPrice = result.data.reduce((total,item)=>total+(item.price*item.qty),0);
+      // totPrice = result.data.reduce((total,item)=>total+(item.price*item.qty),0);
+      
       //0은 total의 값을 초기화하는 값 0이나 다른 값을 넣지 않으면 total이 undefined이기 때문에 item.lprice와 더했을 때 오류가 발생한다.
-      setSumPrice(totPrice);// 장바구니 데이터를 get한 곳에서 총 가격 함수 진행
-      setTotal(totPrice);
+      setSumPrice(result.data[0].total_price);// 장바구니 데이터를 get한 곳에서 총 가격 함수 진행
+      setTotal(result.data[0].total_price);
+      console.log(result.data[0].total_price);
+      console.log(result.data);
       //최초 총 가격 출력
       
       // setOrderList({...orderList})
@@ -175,6 +179,7 @@ useEffect(()=>{
     }
   }
 },[curPage]) // curPage가 변경되면 다시 호출됨 배열로 감싸야 적용 가능
+
 
 const handleDataset = (e)=>{
   console.log(e.target.dataset.id);
@@ -259,9 +264,9 @@ const handleRemove = (cid)=>{
             pageSize={pageSize}//한페이지에 보여줄 개수
             />
           <div className='total_price'>
-            <p>총 상품가격 : {sumPrice.toLocaleString()}원</p>
+            <p>총 상품가격 : {parseInt(sumPrice).toLocaleString()}원</p>
             <p>+ 총 배송비 : </p>
-            <p>= 총 주문금액 : {total.toLocaleString()}원</p>
+            <p>= 총 주문금액 : {parseInt(total).toLocaleString()}원</p>
             <Button onClick={handlePay}>주문</Button>
           </div>
         </div>
