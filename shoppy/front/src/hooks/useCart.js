@@ -2,36 +2,46 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function useCart(curPage,userInfo,pageSize){
+export default function useCart(curPage,userInfo){
   const [cartlist,setCartList] = useState([]);
   const [totItem, setTotItem] = useState(1);
-  const navigate = useNavigate();
   const [sumPrice,setSumPrice] = useState(0);
   const [total,setTotal] = useState(0);
-  // const [curPage, setCurPage] = useState(1);
+  const [pageSize, setPageSize] = useState(3);
+
+  const navigate = useNavigate();
   let totPrice = 0;
   useEffect(()=>{
     let startIndex = 0;
     startIndex = ((curPage-1) * pageSize)
     if(userInfo){
-      axios.get(`http://127.0.0.1:8000/carts/${userInfo.id}/${startIndex}/${pageSize}`)
+      console.log(startIndex,pageSize);
+      axios.get(`http://127.0.0.1:8000/carts/page/${userInfo.id}/${startIndex}/${pageSize}`)
       .then(result=>{
         setCartList(result.data)
-        console.log(result);
+        /* null pointer exception 해결 선생님 방법
+          const rows = result.data[0];
+          (rows === undefined) ? setTotItem(0) : setTotItem(result.data[0].cnt);
+        */
         const getCnt = (result) => {
-          if (result) {
-            return result.data[0].cnt;
+          if (result.data.length >= 1) {
+            return result.data[0].cnt
           } else {
-            return undefined;
+            return undefined
           }
         };
-        console.log(result.data[0].cnt);
-        setTotItem(getCnt())
-        console.log(getCnt());
-        console.log(totItem);
-        totPrice = result.data.reduce((total,item)=>total+(item.price*item.qty),0);
-        setSumPrice(totPrice);
-        setTotal(totPrice);
+        const getPrice = (result) => {
+          if (result.data.length >= 1) {
+            return totPrice = result.data[0].total_price
+          } else {
+            return totPrice = 0;
+          }
+        };
+        setTotItem(getCnt(result))
+        // totPrice = result.data.reduce((total,item)=>total+(item.price*item.qty),0);
+        
+        setSumPrice(getPrice(result));
+        setTotal(getPrice(result));
       })
     }
     else{
@@ -44,5 +54,5 @@ export default function useCart(curPage,userInfo,pageSize){
       }
     }
   },[curPage])
-  return [cartlist,sumPrice,total]
+  return [cartlist,sumPrice,total,pageSize,totItem,setSumPrice,setTotal]
 }

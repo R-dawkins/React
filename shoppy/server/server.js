@@ -22,4 +22,5 @@ server.use('/carts', cartRouter)
 server.use('/order', orderRouter)
 server.use('/upload', uploadRouter)
 
+console.log(PORT);
 server.listen(PORT);

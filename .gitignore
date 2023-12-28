@@ -6,7 +6,7 @@
 images
 .pnp.js
 /.webp
-.webp
+*.webp
 # testing
 /coverage
 

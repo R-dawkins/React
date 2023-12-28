@@ -9,12 +9,15 @@ export default function HomeVisual(){
       <div className="home_visual_sub_wrap">
         <HomeVisualContents
           imgNum="5"
+          page={22}
         />
         <HomeVisualContents
           imgNum="6"
+          page={23}
         />
         <HomeVisualContents
           imgNum="7"
+          page={24}
         />
       </div>
     </div>
