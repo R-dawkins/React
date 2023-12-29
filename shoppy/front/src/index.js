@@ -4,12 +4,19 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {CookiesProvider} from 'react-cookie'
-
+import { legacy_createStore as createStore } from 'redux';
+import { Provider } from 'react-redux';
+import rootReducer from './modules_redux/rootReducer';
+// import {createStore } from 'redux'; createStore는 deprecated 표시가 되어있지만 실제로는 문제없이 작동한다
+const store = createStore(rootReducer);
+console.log(store.getState());
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <CookiesProvider>
-      <App />
+      <Provider store={store}>
+        <App />
+      </Provider>
     </CookiesProvider>
   </React.StrictMode>
 );

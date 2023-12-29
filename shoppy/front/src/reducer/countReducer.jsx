@@ -13,15 +13,17 @@ export default function countReducer(state, action){
   } 
 }
 */
-export default function countReducer(count, action){
+export default function countReducer(state, action){
+  const tot = state.total
   if(action.type === 'increment'){
-    return count + action.number;
+    console.log(state.count,action.number);
+    return {count : state.count + action.number, total : tot + state.count};
   }
   else if(action.type === 'decrement'){
-    return count - action.number;
+    return {count : state.count - action.number, total : tot - state.count};
   }
   else if(action.type === 'reset'){
-    return (count = 0);
+    return {count: 0};
   }
   else if(action.type === 'change'){
     // return ()

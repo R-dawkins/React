@@ -13,6 +13,7 @@ import './App.css';
 import MyOrder from './pages/MyOrder';
 import MyCount from './pages/MyCount';
 import MyInfo from './pages/MyInfo';
+import MyCountRedux from './pages/MyCountRedux';
 const router = createBrowserRouter([
   {
     path : '/',
@@ -28,7 +29,8 @@ const router = createBrowserRouter([
       { path : '/signup', element : <SignUp/>},
       { path : '/order', element : <MyOrder/>},
       { path : '/count', element : <MyCount/>},
-      { path : '/info', element : <MyInfo/>}
+      { path : '/info', element : <MyInfo/>},
+      { path : '/redux', element : <MyCountRedux/>}
     ]
   }
 ]);
