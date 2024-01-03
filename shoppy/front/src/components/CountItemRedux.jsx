@@ -3,7 +3,6 @@ import countReducer from '../reducer/countReducer';
 
 export default function CountItemRedux({count,total,onIncrement,onDecrement,onReset}) {
 const [number, setNumber] = useState(0);
-console.log(count);
   return (
     <div>
       <h1>count : {count}</h1>

@@ -6,7 +6,6 @@ export default function ProductsRegistForm(){
   const [form,setForm] = useState({name:'',price:'',discription:'',image:image});
   const getImage = (e) => {
     setImage(e);
-    console.log(e);
   }
 //image 업로드 처리할 때는 handleChange를 쓰지않고 html자체 form을 사용한다.
 

@@ -29,7 +29,6 @@ export default function ProductsDetail(){
   function handleChange(e){
     const {name,value} = e.target;
     setProduct({...product,[name]:value})
-    console.log(product);
   }
   function handleClick(e){
     //pid(상품),size,id(회원)필요
@@ -44,8 +43,7 @@ export default function ProductsDetail(){
         const id = getUser().id
         const params = {pid,size,id,qty}
         axios.post('http://127.0.0.1:8000/carts/new',params)
-        .then(result=>console.log(result))
-        console.log(params);
+        .then(result=>{})
         // alert('장바구니에 추가 되었습니다.')
         const confirm = window.confirm("장바구니에 추가되었습니다. 장바구니로 이동하시겠습니까? 쇼핑을 계속 하시려면 취소를 눌러주십시오") //컨펌받는명령어
         if(confirm){

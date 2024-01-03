@@ -7,8 +7,11 @@ import {CookiesProvider} from 'react-cookie'
 import { legacy_createStore as createStore } from 'redux';
 import { Provider } from 'react-redux';
 import rootReducer from './modules_redux/rootReducer';
+import { applyMiddleware } from 'redux';
+import logger from 'redux-logger'
+import {thunk} from 'redux-thunk' //비동기처리 라이브러리
 // import {createStore } from 'redux'; createStore는 deprecated 표시가 되어있지만 실제로는 문제없이 작동한다
-const store = createStore(rootReducer);
+const store = createStore(rootReducer,applyMiddleware(thunk));
 console.log(store.getState());
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

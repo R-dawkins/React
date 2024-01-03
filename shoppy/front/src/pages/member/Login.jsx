@@ -16,7 +16,6 @@ export default function Login(){
   function handleChange(e){
     const {name,value} = e.target;
     setForm({...form,[name]:value})
-    console.log(form)
   }
   function handleSubmit(e){
     e.preventDefault();
@@ -35,7 +34,6 @@ export default function Login(){
         setCookie('x-auth-jwt',result.data.token,{path:'/'})
         //token에서 id 추출 후 로컬스토리지에 id 저장
         const userInfo = jwtDecode(result.data.token);
-        console.log(userInfo);
         localStorage.setItem('userInfo',JSON.stringify(userInfo))
         //userid가 객체형태로 들어감
         //localStorage는 쿠키 삭제(로그아웃시)시 같이 삭제되게 하는 것이 좋음
@@ -43,7 +41,6 @@ export default function Login(){
         // 장바구니에서 로그인 확인도 로컬 스토리지에 저장된 데이터를 받아서 할 수 있음
         alert('로그인 성공');
         if(recentPage){
-          console.log(recentPage);
           
           navigate(recentPage)
           removeCookie('recent-page');

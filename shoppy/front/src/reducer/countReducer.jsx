@@ -16,7 +16,6 @@ export default function countReducer(state, action){
 export default function countReducer(state, action){
   const tot = state.total
   if(action.type === 'increment'){
-    console.log(state.count,action.number);
     return {count : state.count + action.number, total : tot + state.count};
   }
   else if(action.type === 'decrement'){

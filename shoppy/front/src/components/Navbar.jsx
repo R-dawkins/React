@@ -7,8 +7,6 @@ import {getUser, removeUser} from '../util/localStorage.js'
 export default function Navbar(){
   const auth = cookie.getCookie('x-auth-jwt');
   const navigate = useNavigate();
-  console.log(auth);
-  console.log(getUser());
   // const userId = getUser().id;
   const userInfo = getUser();
   function handleLogout(){

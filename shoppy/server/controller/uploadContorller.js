@@ -19,7 +19,6 @@ const fupload = multer({ storage: storage }).single('file')
 
 export function upload(req,res){
   fupload(req,res,err =>{
-    console.log(req.file.path);
 
     res.json(req.file);
 

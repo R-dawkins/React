@@ -18,7 +18,6 @@ export default function CountContainer(){
   const onReset = () => dispatch({type:'reset'});
   
   //3. 위의 값(total,count)을 공유하려는 컴포넌트 추가
-  console.log(count,total);
   return(
     <> 
       <CountItemRedux

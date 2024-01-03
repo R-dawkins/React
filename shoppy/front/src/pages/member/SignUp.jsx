@@ -11,7 +11,6 @@ export default function SignUp(){
   function handleChange(e){
     const {name,value} = e.target
     setForm({...form,[name]:value})
-    console.log(form);
     //아이디 중복체크
     //e.target의 name 값이 id일때
     if(name === "id" && value !== ''){

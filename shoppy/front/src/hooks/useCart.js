@@ -15,7 +15,6 @@ export default function useCart(curPage,userInfo){
     let startIndex = 0;
     startIndex = ((curPage-1) * pageSize)
     if(userInfo){
-      console.log(startIndex,pageSize);
       axios.get(`http://127.0.0.1:8000/carts/page/${userInfo.id}/${startIndex}/${pageSize}`)
       .then(result=>{
         setCartList(result.data)

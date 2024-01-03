@@ -4,7 +4,6 @@ import * as memberRepository from '../repository/memberRepository.js'
 
 export async function checkId(req,res){
   const id = req.params.id
-  console.log(id);
   const result = await memberRepository.checkId(id);
   res.json(result)
 }

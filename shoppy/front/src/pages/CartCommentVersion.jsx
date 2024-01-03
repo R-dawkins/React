@@ -36,16 +36,11 @@ const [pageSize, setPageSize] = useState(3); //한 페이지에 보여줄 아이
 // const [orderList, setOrderList] = useState([]);
 // const [cartlist,sumPrice,total] = useCart(curPage,userInfo,pageSize)
 const handleChange = ((e)=>{
-  console.log(e.target.dataset.id);
   let cid = e.target.dataset.id
-  console.log(e.target.checked);
   if(e.target.checked){
     setCheckList([...checkList,cid])
-    console.log(checkList);
   }else{
-    console.log('unchecked!');
     setCheckList(checkList.filter((item) => item !== cid))
-    console.log(checkList);
   }
   //체크한 상품의 cid를 배열에 넣음
 })
@@ -77,7 +72,6 @@ const getQty = (e) => {
 const handleUpdate = (cid,qty)=>{
   axios.put(`http://127.0.0.1:8000/carts/update/${cid}/${qty}`)
   .then(result => {
-    console.log(result);
     if(result.status === 204){
     }
   })
@@ -92,7 +86,6 @@ const handlePay =()=>{
   //회원id,pid,size,qty,totalPrice 받아오기
   axios.post(`http://127.0.0.1:8000/order/new`,cartlist)
   .then(result => {
-    console.log(result);
     if(result.status === 204){
       handleCartRemove()
     }
@@ -138,30 +131,22 @@ useEffect(()=>{
   if(userInfo){
     // axios.get(`http://127.0.0.1:8000/carts/${userInfo.id}`)
     // pag
-    console.log(userInfo.id);
     axios.get(`http://127.0.0.1:8000/carts/page/${userInfo.id}/${startIndex}/${pageSize}`)
     .then(result=>{
       setCartList(result.data)
-      console.log(result);
       const getCnt = (result) => {
-        console.log(result);
         if (result) {
           return result.data[0].cnt;
         } else {
           return undefined;
         }
       };
-      console.log(result.data[0].cnt);
       setTotItem(getCnt(result))
-      console.log(getCnt(result));
-      console.log(totItem);
       // totPrice = result.data.reduce((total,item)=>total+(item.price*item.qty),0);
       
       //0은 total의 값을 초기화하는 값 0이나 다른 값을 넣지 않으면 total이 undefined이기 때문에 item.lprice와 더했을 때 오류가 발생한다.
       setSumPrice(result.data[0].total_price);// 장바구니 데이터를 get한 곳에서 총 가격 함수 진행
       setTotal(result.data[0].total_price);
-      console.log(result.data[0].total_price);
-      console.log(result.data);
       //최초 총 가격 출력
       
       // setOrderList({...orderList})
@@ -182,7 +167,6 @@ useEffect(()=>{
 
 
 const handleDataset = (e)=>{
-  console.log(e.target.dataset.id);
   //********************** 새로운 방법
   //event 대상의 data-id props key에 해당하는 값을 가져오는 함수 
 }

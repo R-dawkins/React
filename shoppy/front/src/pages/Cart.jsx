@@ -13,13 +13,18 @@ import 'rc-pagination/assets/index.css'
 import useCart from '../hooks/useCart.js';
 import CartItem from '../components/CartItem.jsx';
 import useOrder from '../hooks/useOrder.js';
+import { useDispatch, useSelector } from 'react-redux';
+import { cartListFetchData } from '../api/cartsAPI.js';
+import { getCartListData } from '../modules_redux/reduxSelector.js';
 
 export default function Carts(){
 const navigate = useNavigate();
 const userInfo = getUser();
 const [curPage, setCurPage] = useState(1); 
-
-const handlePay =()=>{
+const [sumPrice,setSumPrice] = useState(0);
+const [total,setTotal] = useState(0);
+const dispatch = useDispatch();
+/* const handlePay =()=>{
   axios.post(`http://127.0.0.1:8000/order/new`,cartlist)
   .then(result => {
     
@@ -28,11 +33,11 @@ const handlePay =()=>{
     }
   })
   
-}
+} */
 
-const [cartlist,sumPrice,total,pageSize,totItem,setSumPrice,setTotal] = useCart(curPage,userInfo)
-const {handleOrder} = useOrder(cartlist)
-const handleCartRemove =async ()=>{
+// const [cartlist,sumPrice,total,pageSize,totItem,setSumPrice,setTotal] = useCart(curPage,userInfo)
+/* const {handleOrder} = useOrder(cartlist) */
+/* const handleCartRemove =async ()=>{
   await axios.delete(`http://127.0.0.1:8000/carts/removelist/${userInfo.id}`)
   .then(result => {
     if(result.status === 200){
@@ -40,10 +45,14 @@ const handleCartRemove =async ()=>{
       navigate('/order')
     }
   })
-}
+} */
 
-
-
+//1. dispatch => API :: Axios 액션 함수 -> src/api/cartsAPI.js
+useEffect(()=>{
+  dispatch(cartListFetchData({userInfo,curPage}));
+},[curPage])
+//2. useSelector
+const {cartList, totalCount, totalPrice, pageSize} = useSelector(getCartListData);
   return(
     <div className='cart inner'>{
       userInfo 
@@ -66,7 +75,7 @@ const handleCartRemove =async ()=>{
             </thead>
             <tbody>
           {
-            cartlist.map((list)=>{
+            cartList && cartList.map((list)=>{
                 
               return <CartItem
               key={list.rno}
@@ -82,14 +91,14 @@ const handleCartRemove =async ()=>{
             <Pagination className='d-flex justify-content-center'
             onChange={(page)=>{setCurPage(page)}}
             current={curPage}// 현재 페이지
-            total={totItem}// 총 아이템 개수
+            total={totalCount}// 총 아이템 개수
             pageSize={pageSize}//한페이지에 보여줄 개수
             />
           <div className='total_price'>
-            <p>총 상품가격 : {parseInt(sumPrice).toLocaleString()}원</p>
+            <p>총 상품가격 : {parseInt(totalPrice).toLocaleString()}원</p>
             <p>+ 총 배송비 : </p>
-            <p>= 총 주문금액 : {parseInt(total).toLocaleString()}원</p>
-            <Button onClick={handleOrder}>주문</Button>
+            <p>= 총 주문금액 : {parseInt(totalPrice).toLocaleString()}원</p>
+            <Button>주문</Button>
           </div>
         </div>
       </div>) 
