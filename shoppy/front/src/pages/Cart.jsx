@@ -48,17 +48,22 @@ const dispatch = useDispatch();
 } */
 
 //1. dispatch => API :: Axios 액션 함수 -> src/api/cartsAPI.js
+const {cartList, totalCount, totalPrice, pageSize, check, deleteFlag} = useSelector(getCartListData);
 useEffect(()=>{
-  dispatch(cartListFetchData({userInfo,curPage}));
-},[curPage])
+  // 1개 남았을 때 삭제하면 빈화면 보이는것 해결 ->
+  dispatch(cartListFetchData({userInfo,curPage,totalCount,deleteFlag}));
+  console.log(deleteFlag);
+  console.log(totalCount);
+},[curPage,check,deleteFlag])
 //2. useSelector
-const {cartList, totalCount, totalPrice, pageSize} = useSelector(getCartListData);
+
+
   return(
     <div className='cart inner'>{
       userInfo 
       ? (
       <div>
-        <h1>{userInfo.id}의 장바구니</h1>
+        <h1>{userInfo.id}의 장바구니 {`${check},${deleteFlag}`}</h1>
         <div>
           <Table striped bordered hover>
             <thead>

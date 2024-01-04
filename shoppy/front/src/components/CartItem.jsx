@@ -1,13 +1,20 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Quantity from './Quantity';
 import { Button } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form'
 import axios from 'axios';
 import CartDeleteItem from './CartDeleteItem';
 import useUpdateQty from '../hooks/useUpdateQty';
+import { useDispatch } from 'react-redux';
+import { cartQtyUpdate } from '../api/cartsAPI';
 export default function CartItem({ list, setSumPrice, setTotal, sumPrice }) {
+  const [number,setNumber] = useState(list.qty);
+  const [cid, setCid] = useState(list.cid);
   const [qty, setQty] = useState(1)
+  const [flag, setFlag] = useState(null);
+  const [price, setPrice] = useState(list.price);
   const {updateCartItemQty} = useUpdateQty();
+  const [check,setCheck] = useState(false);
   const getQty = (e) => {
     setQty(e.qty);
     if (e.checkFlag === 'plus' && e.qtyFlag) {
@@ -22,7 +29,33 @@ export default function CartItem({ list, setSumPrice, setTotal, sumPrice }) {
     updateCartItemQty(e.cid, e.qty);
   }
 
+  const handlePlus = ()=>{
+    if(number === 10){
+      alert('최대 10개 선택')
+    }else{
+      setNumber(number + 1)
+      setCid(list.cid)
+      setFlag('plus')
+      setPrice(list.price)
+      setCheck(!check)
+    }
+  }
+  const handleMinus = ()=>{
+    if(number === 1){
+      alert('최소 1개 선택')
+    }else{
+      setNumber(number - 1)
+      setCid(list.cid)
+      setFlag('minus')
+      setPrice(list.price)
+      setCheck(!check)
+    }
+  }
 
+  const dispatch = useDispatch();
+  useEffect(()=>{
+    dispatch(cartQtyUpdate({cid,flag,number,price,check}))
+  },[number])
 
   const handleUpdate = (cid, qty) => {
     axios.put(`http://127.0.0.1:8000/carts/update/${cid}/${qty}`)
@@ -67,9 +100,12 @@ export default function CartItem({ list, setSumPrice, setTotal, sumPrice }) {
       <td>
         <div className="quantity">
           <p>
-            <span onClick={() => quantityCheck("minus")}>-</span>
-            <span>{count}</span>
-            <span onClick={() => quantityCheck("plus")}>+</span>
+            {/* <span onClick={() => quantityCheck("minus")}>-</span> */}
+            <span onClick={() => handleMinus("minus")}>-</span>
+            {/* <span>{count}</span> */}
+            <span>{number}</span>
+            {/* <span onClick={() => quantityCheck("plus")}>+</span> */}
+            <span onClick={() => handlePlus("plus")}>+</span>
           </p>
         </div>
       </td>
