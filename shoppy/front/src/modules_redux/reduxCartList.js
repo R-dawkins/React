@@ -27,7 +27,8 @@ const init = {
   cartList: null,
   totalCount:0,
   totalPrice:0,
-  pageSize:3
+  pageSize:3,
+  curPage:1
 }
 export default function reduxCartList(state=init,action){
   switch (action.type) {
@@ -36,7 +37,8 @@ export default function reduxCartList(state=init,action){
         cartList:action.cartList,
         totalCount:action.totalCount,
         totalPrice:action.totalPrice,
-        pageSize:action.pageSize
+        pageSize:action.pageSize,
+        curPage:action.curPage
       }
     default:
       return state

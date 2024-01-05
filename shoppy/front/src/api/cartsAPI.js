@@ -8,15 +8,20 @@ export const cartListFetchData = ({userInfo,curPage,totalCount,deleteFlag}) =>{
 if(deleteFlag && (totalCount % 3) === 0){
   curPage = curPage - 1
 }
+console.log(curPage);
   startIndex = ((curPage-1) * pageSize)
   return async (dispatch)=>{
     console.log(startIndex,pageSize);
     const result = await axios.get(`http://127.0.0.1:8000/carts/page/${userInfo.id}/${startIndex}/${pageSize}`)
     // dispatch();
     let cartList = result.data;
-    console.log(cartList);
-    const totalCount = result.data[0].cnt;
-    const totalPrice = result.data[0].total_price;
+    const rows = result.data[0];
+    // totalCount = 0
+    let totalPrice = 0;
+    if(rows !== undefined){
+      totalCount = result.data[0].cnt;
+      totalPrice = result.data[0].total_price;
+    }
     /* let totalCount = 0;
     let totalPrice = 0;
     const rows = result.data[0]; */
@@ -50,8 +55,9 @@ if(deleteFlag && (totalCount % 3) === 0){
       cartList:cartList,
       totalCount:totalCount,
       totalPrice:totalPrice,
-      pageSize:pageSize
-    });
+      pageSize:pageSize,
+      curPage:curPage
+    }); //store에 접근하는 dispatch
   }
 }
 
@@ -86,3 +92,4 @@ if(deleteFlag && (totalCount % 3) === 0){
     }
   }
 // 여기서 alert 사용하면 안됨
+// dispatch가 두번 연속 가능한 이유 > thunk 라이브러리 사용으로 가능

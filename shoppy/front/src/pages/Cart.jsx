@@ -48,15 +48,18 @@ const dispatch = useDispatch();
 } */
 
 //1. dispatch => API :: Axios 액션 함수 -> src/api/cartsAPI.js
-const {cartList, totalCount, totalPrice, pageSize, check, deleteFlag} = useSelector(getCartListData);
+const {cartList, totalCount, totalPrice, pageSize,currentPage, check, deleteFlag} = useSelector(getCartListData);
 useEffect(()=>{
   // 1개 남았을 때 삭제하면 빈화면 보이는것 해결 ->
-  dispatch(cartListFetchData({userInfo,curPage,totalCount,deleteFlag}));
+  dispatch(cartListFetchData({userInfo,curPage,totalCount,deleteFlag})); //dispatch안에 함수가 나오면 store로 보내는게 아니다
   console.log(deleteFlag);
   console.log(totalCount);
-},[curPage,check,deleteFlag])
+  
+},[curPage,check,totalCount])
 //2. useSelector
-
+useEffect(()=>{
+setCurPage(currentPage)
+},[currentPage])
 
   return(
     <div className='cart inner'>{
