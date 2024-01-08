@@ -23,13 +23,42 @@
   >> state 사용 준비 완료
  */
 
-const init = {
+import { createSlice } from "@reduxjs/toolkit"
+
+const initialState = {
+  list : {cartList: null,
+    totalCount:0,
+    totalPrice:0,
+    pageSize:3,
+    curPage:1,
+  }
+  }
+  /* 1:1 매칭 방식
   cartList: null,
   totalCount:0,
   totalPrice:0,
   pageSize:3,
-  curPage:1
-}
+  curPage:1 */
+
+const cartListSlice = createSlice({
+  name : 'cartList', //redux toolkit에서 name을 바탕으로 유니크하게 바꾸어줌
+  initialState,
+  reducers: {
+    getFetchDataList(state, action){
+      state.list = action.payload; //dispatch가 실행될 때 넣어 둔 객체가 payload안에 자동으로 들어온다. 호출시에는 state.payload.cartList
+      /*  1:1 매칭 방식
+      state.cartList = action.cartList,
+      state.totalCount = action.totalCount,
+      state.totalPrice = action.totalPrice,
+      state.pageSize = action.pageSize,
+      state.curPage = action.curPage 
+      */
+    },
+
+  }
+})
+
+/* regacy redux 방법
 export default function reduxCartList(state=init,action){
   switch (action.type) {
     case 'FETCH_DATA_SUCCESS':
@@ -43,4 +72,8 @@ export default function reduxCartList(state=init,action){
     default:
       return state
   }
-}
+} */
+
+export const { getFetchDataList } = cartListSlice.actions
+// export const cartListSliceAction = cartListSlice.actions //이렇게 export하면 cartListSliceAction.getFetchDataList()와 같이 cartListSliceAction 객체의 내부 함수에 접근해야 한다
+export default cartListSlice.reducer

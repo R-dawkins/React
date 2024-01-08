@@ -1,11 +1,13 @@
 import axios from "axios";
+import { getFetchDataList } from "../modules_redux/reduxCartList";
+import { removeSuccess } from "../modules_redux/reduxCartItemDelete";
 
 /* 장바구니 리스트 */
 export const cartListFetchData = ({userInfo,curPage,totalCount,deleteFlag}) =>{
   let startIndex = 0;
   const pageSize = 3;
   console.log(curPage);
-if(deleteFlag && (totalCount % 3) === 0){
+if(deleteFlag && (totalCount % 3) === 0 && curPage !== 1){
   curPage = curPage - 1
 }
 console.log(curPage);
@@ -50,6 +52,10 @@ console.log(curPage);
   // const cartList = JSON.parse(JSON.stringify(result.data)) 과거에 dispatch에서 인식하지 못하는 현상 발생 하여 쓰던 방법
   // const cartList = result.data >> axios 사용시
   // const cartList = JSON.parse(result.data) fetch 사용시
+
+  dispatch(getFetchDataList({cartList,totalCount,totalPrice,pageSize,curPage}));
+  dispatch((removeSuccess(false)));
+    /* legacy redux 방법
     dispatch({
       type : "FETCH_DATA_SUCCESS",
       cartList:cartList,
@@ -57,7 +63,7 @@ console.log(curPage);
       totalPrice:totalPrice,
       pageSize:pageSize,
       curPage:curPage
-    }); //store에 접근하는 dispatch
+    }); */ //store에 접근하는 dispatch
   }
 }
 
@@ -84,10 +90,11 @@ console.log(curPage);
       await axios.delete(`http://127.0.0.1:8000/carts/remove/${cid}`)
       .then(result=>{
         console.log('delete success')
-        dispatch({
+        /* dispatch({
           type:"DELETE_SUCCESS",
           deleteFlag: true
-        })
+        }) */
+        dispatch(removeSuccess(true))
     })
     }
   }

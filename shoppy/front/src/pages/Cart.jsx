@@ -54,7 +54,7 @@ useEffect(()=>{
   dispatch(cartListFetchData({userInfo,curPage,totalCount,deleteFlag})); //dispatch안에 함수가 나오면 store로 보내는게 아니다
   console.log(deleteFlag);
   console.log(totalCount);
-  
+  console.log(cartList);
 },[curPage,check,totalCount])
 //2. useSelector
 useEffect(()=>{
