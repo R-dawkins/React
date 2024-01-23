@@ -6,6 +6,7 @@ import memberRouter from './router/memberRouter.js';
 import cartRouter from './router/cartRouter.js'
 import orderRouter from './router/orderRouter.js'
 import uploadRouter from './router/uploadRouter.js'
+import nativeRouter from './router/nativeRouter.js'
 import cookie from 'cookie-parser';
 const server = express();
 const PORT = 8000;
@@ -21,6 +22,6 @@ server.use('/', memberRouter)
 server.use('/carts', cartRouter)
 server.use('/order', orderRouter)
 server.use('/upload', uploadRouter)
-
+server.use('/todo', nativeRouter)
 console.log(PORT);
 server.listen(PORT);

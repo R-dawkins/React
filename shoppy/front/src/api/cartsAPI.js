@@ -15,55 +15,15 @@ console.log(curPage);
   return async (dispatch)=>{
     console.log(startIndex,pageSize);
     const result = await axios.get(`http://127.0.0.1:8000/carts/page/${userInfo.id}/${startIndex}/${pageSize}`)
-    // dispatch();
     let cartList = result.data;
     const rows = result.data[0];
-    // totalCount = 0
     let totalPrice = 0;
     if(rows !== undefined){
       totalCount = result.data[0].cnt;
       totalPrice = result.data[0].total_price;
     }
-    /* let totalCount = 0;
-    let totalPrice = 0;
-    const rows = result.data[0]; */
-    //삭제가 일어나면 totalcount에서 -1뺀다 
-    //totalcount가 3의 배수일때  나머지가 0일때 page를 1개 뺀다 
-
-
-
-/*     if(startIndex !== 0 && rows === undefined){
-      startIndex = ((curPage-2) * pageSize)
-      const result = await axios.get(`http://127.0.0.1:8000/carts/page/${userInfo.id}/${startIndex}/${pageSize}`)
-      console.log(result);
-      cartList = result.data;
-      totalCount = result.data[0].cnt;
-      totalPrice = result.data[0].total_price;
-    }
-    else if(rows !== undefined){
-      totalCount = result.data[0].cnt;
-      totalPrice = result.data[0].total_price;
-    } */
-    /* if(rows !== undefined){
-      }  */
-      // null pointer exception
-    
-
-  // const cartList = JSON.parse(JSON.stringify(result.data)) 과거에 dispatch에서 인식하지 못하는 현상 발생 하여 쓰던 방법
-  // const cartList = result.data >> axios 사용시
-  // const cartList = JSON.parse(result.data) fetch 사용시
-
   dispatch(getFetchDataList({cartList,totalCount,totalPrice,pageSize,curPage}));
   dispatch((removeSuccess(false)));
-    /* legacy redux 방법
-    dispatch({
-      type : "FETCH_DATA_SUCCESS",
-      cartList:cartList,
-      totalCount:totalCount,
-      totalPrice:totalPrice,
-      pageSize:pageSize,
-      curPage:curPage
-    }); */ //store에 접근하는 dispatch
   }
 }
 
